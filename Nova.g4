@@ -23,19 +23,37 @@ module
     ;
     
 let
-    : LET ID EQ 
+    : LET ID EQ NEWLINE*
         (
+            lambda (NEWLINE*|SEMI?) 
+            |
             LBRA 
             NEWLINE* 
                 (expr (NEWLINE*|SEMI?))* 
-                (literal|binary)
+                (atom|binary)
             NEWLINE* 
             RBRA 
             | 
-            (literal|binary) (NEWLINE*|SEMI?)
+            (atom|binary) (NEWLINE*|SEMI?)
         )
     ;
 
+lambda
+    : LAMBDA paramList NEWLINE* ARROW NEWLINE* (literal | binary | ID) (SEMI | NEWLINE)
+    | LAMBDA paramList NEWLINE* ARROW NEWLINE* 
+        LBRA 
+        NEWLINE* 
+            (expr (NEWLINE* | SEMI?))*
+            (lambda | (binary|LPAR binary RPAR) | literal | identifier)
+        NEWLINE* 
+        RBRA  
+    ;
+
+paramList
+    : ID (ID)* 
+    ;
+
+    
 literal
     : I16
     ;
@@ -52,43 +70,22 @@ multiplication
     : atom ( (MULT | DIV) atom )*
     ;
 
-
-//// Combined binary operations
-//binary
-//    : atom
-//    | addition
-//    | subtraction
-//    | multiplication
-//    | division
-//    ;
-//
-//// Define arithmetic operations
-//addition
-//    : atom PLUS binary
-//    ;
-//
-//subtraction
-//    : atom MINUS binary
-//    ;
-//
-//multiplication
-//    : atom MULT binary
-//    ;
-//
-//division
-//    : atom DIV binary
-//    ;
-
 // Atomic values (base units)
 atom
-    : I16
+    : lambda
     | LPAR binary RPAR
+    | I16
+    | identifier
     ;
+    
+identifier: ID;
     
 // Keywords (reserved words)
 PACKAGE : 'package';
 MODULE  : 'module';
 LET     : 'let';
+
+LAMBDA  : '\\';
 
 // Types
 I16     : [0-9]+;
@@ -97,6 +94,7 @@ I16     : [0-9]+;
 ID      : [a-zA-Z_][a-zA-Z0-9_]*;
 
 // Punctuation
+ARROW   : '=>';
 PLUS    : '+';
 MINUS   : '-';
 MULT    : '*';

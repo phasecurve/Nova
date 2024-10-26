@@ -62,6 +62,18 @@ public interface INovaVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLet([NotNull] NovaParser.LetContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="NovaParser.lambda"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLambda([NotNull] NovaParser.LambdaContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="NovaParser.paramList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParamList([NotNull] NovaParser.ParamListContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="NovaParser.literal"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -91,4 +103,10 @@ public interface INovaVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitAtom([NotNull] NovaParser.AtomContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="NovaParser.identifier"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIdentifier([NotNull] NovaParser.IdentifierContext context);
 }

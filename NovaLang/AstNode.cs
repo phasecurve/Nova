@@ -17,6 +17,7 @@ public class ModuleAstNode(string? name) : AstNode(name)
 }
 
 public class ExprAstNode(string? name, string? value = null) : AstNode(name, value);
+public class IdentifierAstNode(string? name, string? value = null) : AstNode(name, value);
 
 public class LetAstNode(string? name) : ExprAstNode(name)
 {

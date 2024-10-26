@@ -10,7 +10,7 @@ public class SemanticAnalysisVisitor : NovaBaseVisitor<object>
         {
             return VisitPackage(packageContext);
         }
-
+        
         if (tree is NovaParser.ModuleContext module)
         {
             return VisitModule(module);
@@ -82,6 +82,10 @@ public class SemanticAnalysisVisitor : NovaBaseVisitor<object>
         return letAstNode;
     }
 
+    public override object VisitIdentifier(NovaParser.IdentifierContext context)
+    {
+        return new IdentifierAstNode(context.GetText());
+    }
 
     public override object VisitLiteral(NovaParser.LiteralContext context)
     {
